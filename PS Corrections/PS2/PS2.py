@@ -13,6 +13,35 @@
 #     name: python3
 # ---
 
+# ## GSI comments
+#
+# Overall: -2 for imports not collected at top.
+#
+# -4 for missing docstring in all functions. 
+#
+# -2 if inconsistent spacing around assignment =. 
+#
+# Q1: -5 for incorrect output. (uniform would not return integer but float) 
+#
+# Q2: -6 for incorrect MC study and no formatted table or description. 
+#
+# Q3: -1 for long variable name.
+
+# ## Imports
+
+# **Corrections for PS6 Q3**
+#
+# -2 for imports not collected at top.
+
+import numpy as np
+import random
+import pandas as pd
+import pickle
+from timeit import Timer
+from collections import defaultdict
+
+# # Question 0 - Code review warmup [10 points]
+
 sample_list = [(1, 3, 5), (0, 1, 2), (1, 9, 8)]
 op = []
 for m in range(len(sample_list)):
@@ -26,7 +55,6 @@ res = list(set(op))
 
 print(res)
 
-# # Question 0 - Code review warmup [10 points]
 
 # **a. describe the task that the code accomplishes**
 
@@ -48,28 +76,55 @@ print(res)
 
 # # Question 1 - List of Tuples [20 points]
 
-import numpy as np
+# **Corrections for PS6 Q3**
+#
+# -4 for missing docstring in all functions.
+#
+# Q1: -5 for incorrect output. (uniform would not return integer but float)
 
+def lis_tup(n, k=5, low=1, high=5):
+    """
+    Generate a random list of n k-tuples containing integers ranging from low to high.
 
-def lis_tup(n,k=5,low=1,high=5):
-    lis = [tuple(np.random.uniform(low, high) for i in range(k)) for j in range(n)]
+    Parameters
+    ----------
+    n : integer
+        The number of tuples in the list.
+    k: integer, optional
+        The length of the tuples created. The default is 5.
+    low : integer, optional
+        The low end of the range to generate integers from. The default is 1.
+    high : integer, optional
+        The high end of hte range to generate integers from. The default is 5.
+    
+    Returns
+    -------
+    A list of length `n` with tuples of size `tup_size` consting of uniform
+    random integers in [low, high).
+    """
+    lis = [tuple(np.random.randint(low, high) for i in range(k)) for j in range(n)]
     return lis
 
 
-# +
-n=6
-k=5
-low=1
-high=5
 
-ast_lis=lis_tup(n,k,low,high)
+# **Corrections for PS6 Q3**
+#
+# -2 if inconsistent spacing around assignment =.
+
+# +
+n = 6
+k = 5
+low = 1
+high = 5
+
+ast_lis = lis_tup(n, k, low, high)
 
 # assert the type of the result is list
-assert type(ast_lis)==list
+assert type(ast_lis) == list
 
 # assert the list is composed by tuples
 for i in range(len(ast_lis)):
-    assert type(ast_lis[i])==tuple
+    assert type(ast_lis[i]) == tuple
 
 
 # -
@@ -78,7 +133,29 @@ for i in range(len(ast_lis)):
 
 # **a. encapsulate the code snippet from the warmup into a function**
 
-def filter_tuple_a(sample_list, first_cmp, second_cmp):
+# **Corrections for PS6 Q3**
+#
+# -4 for missing docstring in all functions.
+
+def filter_tuple_a(sample_list, first_cmp=0, second_cmp=2):
+    
+    """
+    Find tuples with maximum value in one position by unique value in another.
+    
+    ----------
+    sample_list : list of tuples
+        The list of tuples to organize as described above.
+    first_cmp : int
+        The position to determine whether the element is unique. The default is 0.
+    second_cmp : int
+        The position to compare when the element in the first position is not unique. 
+        The default is 2.
+
+    Returns
+    -------
+    A list of all tuples, in which the element on the first position is unique. 
+    When it is not equal, chose the tuple with the largest element on the second position. 
+    """
     
     # make sure first_com and second_com have corresponding elements in the tuples
     assert first_cmp < len(sample_list[0])
@@ -101,7 +178,29 @@ def filter_tuple_a(sample_list, first_cmp, second_cmp):
 
 # **b. write an improved version of the function**
 
-def filter_tuple_b(sample_list, first_cmp, second_cmp):
+# **Corrections for PS6 Q3**
+#
+# -4 for missing docstring in all functions.
+
+def filter_tuple_b(sample_list, first_cmp=0, second_cmp=2):
+    
+    """
+    Find tuples with maximum value in one position by unique value in another.
+    
+    ----------
+    sample_list : list of tuples
+        The list of tuples to organize as described above.
+    first_cmp : int
+        The position to determine whether the element is unique. The default is 0.
+    second_cmp : int
+        The position to compare when the element in the first position is not unique.
+        The default is 2.
+
+    Returns
+    -------
+    A list of all tuples, in which the element on the first position is unique. 
+    When it is not equal, chose the tuple with the largest element on the second position. 
+    """
     
     # make sure first_com and second_com have corresponding elements in the tuples
     assert first_cmp < len(sample_list[0])
@@ -134,7 +233,29 @@ def filter_tuple_b(sample_list, first_cmp, second_cmp):
 
 # **c. Write a function from scratch to accomplish the same task as the previous two parts. Your solution should traverse the input list of tuples no more than twice.**
 
-def filter_tuple_c(sample_list, first_cmp, second_cmp):
+# **Corrections for PS6 Q3**
+#
+# **-4 for missing docstring in all functions.**
+
+def filter_tuple_c(sample_list, first_cmp=0, second_cmp=2):
+    
+    """
+    Find tuples with maximum value in one position by unique value in another.
+    
+    ----------
+    sample_list : list of tuples
+        The list of tuples to organize as described above.
+    first_cmp : int
+        The position to determine whether the element is unique. The default is 0.
+    second_cmp : int
+        The position to compare when the element in the first position is not unique.
+        The default is 2.
+
+    Returns
+    -------
+    A list of all tuples, in which the element on the first position is unique. 
+    When it is not equal, chose the tuple with the largest element on the second position. 
+    """
     
     # make sure first_com and second_com have corresponding elements in the tuples
     assert first_cmp < len(sample_list[0])
@@ -167,170 +288,38 @@ def filter_tuple_c(sample_list, first_cmp, second_cmp):
 
 # **d. Use the function you wrote in question 1 to generate a list of tuples as input(s), run and summarize a small Monte Carlo study comparing the execution times of the three functions above (a-c).**
 
-import time
-import random
+# **Corrections for PS6 Q3**
+#
+# -2 if inconsistent spacing around assignment =.
+#
+# Q2: -6 for incorrect MC study and no formatted table or description.
 
 # +
-n = 1000
-k = 100
-low = 0
-high = 10000
+sample_list = lis_tup(n=1000, k=5, low=0, high=1000)
 
-sample_list = lis_tup(n, k, low, high)
+time = defaultdict(list)
 
-first_cmp=20
-second_cmp=80
-
-dic_time={}
-
-start_a=time.time()
-filter_tuple_a(sample_list, first_cmp, second_cmp)
-end_a=time.time()
-dic_time['a'] = end_a - start_a
-
-start_b=time.time()
-filter_tuple_b(sample_list, first_cmp, second_cmp)
-end_b=time.time()
-dic_time['b'] = end_b - start_b
-
-start_c=time.time()
-filter_tuple_c(sample_list, first_cmp, second_cmp)
-end_c=time.time()
-dic_time['c'] = end_c - start_c
-
-print (dic_time)
-
-# +
-#change the value of n
-
-k = 100
-low = 0
-high = 10000
-
-for i in range(10):
-    n = int(random.uniform(1000,10000))
-    sample_list = lis_tup(n, k, low, high)
-    first_cmp=20
-    second_cmp=80
+for f in [filter_tuple_a, filter_tuple_b, filter_tuple_c]:
+    t = Timer('f(n)', globals={'f': f, 'n': sample_list})
+    tm = t.repeat(repeat=100, number=1)
+    time["Function"].append(f.__name__)
+    time["mean time"].append(np.mean(tm))
     
-    dic_time={}
-    start_a=time.time()
-    filter_tuple_a(sample_list, first_cmp, second_cmp)
-    end_a=time.time()
-    dic_time['a'] = end_a - start_a
+tab1 = pd.DataFrame(time)
 
-    start_b=time.time()
-    filter_tuple_b(sample_list, first_cmp, second_cmp)
-    end_b=time.time()
-    dic_time['b'] = end_b - start_b
-
-    start_c=time.time()
-    filter_tuple_c(sample_list, first_cmp, second_cmp)
-    end_c=time.time()
-    dic_time['c'] = end_c - start_c
-
-    print ('n =', n ,dic_time)
-
-# +
-#change the value of k
-
-n=1000
-low = 0
-high = 10000
-
-for i in range(10):
-    k = int(random.uniform(100,1000))
-    sample_list = lis_tup(n, k, low, high)
-    first_cmp=20
-    second_cmp=80
-    
-    dic_time={}
-    start_a=time.time()
-    filter_tuple_a(sample_list, first_cmp, second_cmp)
-    end_a=time.time()
-    dic_time['a'] = end_a - start_a
-
-    start_b=time.time()
-    filter_tuple_b(sample_list, first_cmp, second_cmp)
-    end_b=time.time()
-    dic_time['b'] = end_b - start_b
-
-    start_c=time.time()
-    filter_tuple_c(sample_list, first_cmp, second_cmp)
-    end_c=time.time()
-    dic_time['c'] = end_c - start_c
-
-    print ('k =', k, dic_time)
-
-# +
-#change the value of low
-
-n=1000
-k=100
-high = 10000
-
-for i in range(10):
-    low = int(random.uniform(0,1000))
-    sample_list = lis_tup(n, k, low, high)
-    first_cmp=20
-    second_cmp=80
-    
-    dic_time={}
-    start_a=time.time()
-    filter_tuple_a(sample_list, first_cmp, second_cmp)
-    end_a=time.time()
-    dic_time['a'] = end_a - start_a
-
-    start_b=time.time()
-    filter_tuple_b(sample_list, first_cmp, second_cmp)
-    end_b=time.time()
-    dic_time['b'] = end_b - start_b
-
-    start_c=time.time()
-    filter_tuple_c(sample_list, first_cmp, second_cmp)
-    end_c=time.time()
-    dic_time['c'] = end_c - start_c
-
-    print ('low =', low, dic_time)
-
-# +
-#change the value of high
-
-n=1000
-k=100
-low = 0
-
-for i in range(10):
-    high = int(random.uniform(10000,100000))
-    sample_list = lis_tup(n, k, low, high)
-    first_cmp=20
-    second_cmp=80
-    
-    dic_time={}
-    start_a=time.time()
-    filter_tuple_a(sample_list, first_cmp, second_cmp)
-    end_a=time.time()
-    dic_time['a'] = end_a - start_a
-
-    start_b=time.time()
-    filter_tuple_b(sample_list, first_cmp, second_cmp)
-    end_b=time.time()
-    dic_time['b'] = end_b - start_b
-
-    start_c=time.time()
-    filter_tuple_c(sample_list, first_cmp, second_cmp)
-    end_c=time.time()
-    dic_time['c'] = end_c - start_c
-
-    print ('high =', high, dic_time)
+print(tab1)
 # -
+
+# The execution times of the `filter_tuple_a`, `filter_tuple_b` and `filter_tuple_c` functions decrease one by one.
+# To be more specific, the execution time of `filter_tuple_c` is only $\frac{1}{3}$ of that of `filter_tuple_a`.
 
 # # Question 3 - [30 points]
 
-import pandas as pd
-import pickle
-
 # **a. read and append the demographic datasets**
+
+# **Corrections for PS6 Q3**
+#
+# Q3: -1 for long variable name.
 
 # +
 url1 = 'https://wwwn.cdc.gov/Nchs/Nhanes/2011-2012/DEMO_G.XPT'
@@ -339,19 +328,23 @@ url3 = 'https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DEMO_I.XPT'
 url4 = 'https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DEMO_J.XPT'
 
 df11_12 = pd.read_sas(url1)
-df11_12 = df11_12[['SEQN', 'RIDAGEYR', 'RIDRETH3', 'DMDEDUC2', 'DMDMARTL', 'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'WTMEC2YR', 'WTINT2YR']]
+df11_12 = df11_12[['SEQN', 'RIDAGEYR', 'RIDRETH3', 'DMDEDUC2', 'DMDMARTL', 
+                   'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'WTMEC2YR', 'WTINT2YR']]
 df11_12['year'] = ['2011-2012' for i in range(len(df11_12))]
 
 df13_14 = pd.read_sas(url2)
-df13_14 = df13_14[['SEQN', 'RIDAGEYR', 'RIDRETH3', 'DMDEDUC2', 'DMDMARTL', 'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'WTMEC2YR', 'WTINT2YR']]
+df13_14 = df13_14[['SEQN', 'RIDAGEYR', 'RIDRETH3', 'DMDEDUC2', 'DMDMARTL', 
+                   'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'WTMEC2YR', 'WTINT2YR']]
 df13_14['year'] = ['2013-2014' for i in range(len(df13_14))]
 
 df15_16 = pd.read_sas(url3)
-df15_16 = df15_16[['SEQN', 'RIDAGEYR', 'RIDRETH3', 'DMDEDUC2', 'DMDMARTL', 'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'WTMEC2YR', 'WTINT2YR']]
+df15_16 = df15_16[['SEQN', 'RIDAGEYR', 'RIDRETH3', 'DMDEDUC2', 'DMDMARTL', 
+                   'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'WTMEC2YR', 'WTINT2YR']]
 df15_16['year'] = ['2015-2016' for i in range(len(df15_16))]
 
 df17_18 = pd.read_sas(url4)
-df17_18 = df17_18[['SEQN', 'RIDAGEYR', 'RIDRETH3', 'DMDEDUC2', 'DMDMARTL', 'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'WTMEC2YR', 'WTINT2YR']]
+df17_18 = df17_18[['SEQN', 'RIDAGEYR', 'RIDRETH3', 'DMDEDUC2', 'DMDMARTL', 
+                   'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'WTMEC2YR', 'WTINT2YR']]
 df17_18['year'] = ['2017-2018' for i in range(len(df17_18))]
 
 df = pd.concat([df11_12, df13_14, df15_16, df17_18], axis=0)
@@ -361,16 +354,16 @@ df['RIDAGEYR'] = df['RIDAGEYR'].astype('int')
 df['RIDRETH3'] = df['RIDRETH3'].astype('int')
 df['RIDSTATR'] = df['RIDSTATR'].astype('int')
 
-df = df.rename(columns={'SEQN': 'Respondent sequence number',
-                   'RIDAGEYR': 'Age in years of the participant at the time of screening.', 
-                   'RIDRETH3': 'Recode of reported race and Hispanic origin information, with Non-Hispanic Asian Category',
-                   'DMDEDUC2': 'What is the highest grade or level of school {you have/SP has} completed or the highest degree {you have/s/he has} received?',
-                   'DMDMARTL': 'Marital status',
-                   'RIDSTATR': 'Interview and examination status of the participant.',
-                   'SDMVPSU': 'Masked variance unit pseudo-PSU variable for variance estimation',
-                   'SDMVSTRA': 'Masked variance unit pseudo-stratum variable for variance estimation',
-                   'WTMEC2YR': 'Both interviewed and MEC examined participants.',
-                   'WTINT2YR': 'Interviewed participants.'})
+df = df.rename(columns = {'SEQN': 'sequence number',
+                         'RIDAGEYR': 'Age', 
+                         'RIDRETH3': 'Race',
+                         'DMDEDUC2': 'Education level',
+                         'DMDMARTL': 'Marital status',
+                         'RIDSTATR': 'examination status',
+                         'SDMVPSU': 'pseudo-PSU variable',
+                         'SDMVSTRA': 'pseudo-stratum variable',
+                         'WTMEC2YR': 'Interviewed and MEC examined participants.',
+                         'WTINT2YR': 'Interviewed participants.'})
 
 
 f = open('NHANS.pkl', 'wb')
@@ -381,6 +374,10 @@ pickle.dump(df, f, -1)
 print(df)
 
 # **b. read and append the oral health and dentition dataset**
+
+# **Corrections for PS6 Q3**
+#
+# Q3: -1 for long variable name.
 
 # +
 url5 = 'https://wwwn.cdc.gov/Nchs/Nhanes/2011-2012/OHXDEN_G.XPT'
@@ -419,8 +416,8 @@ df_od = pd.concat([df11_12_od, df13_14_od, df15_16_od, df17_18_od], axis=0, sort
 df_od['SEQN'] = df_od['SEQN'].astype('int')
 df_od['OHDDESTS'] = df_od['OHDDESTS'].astype('int')
 
-df_od = df_od.rename(columns={'SEQN': 'Respondent sequence number',
-                        'OHDDESTS': 'Dentition Status Code'})
+df_od = df_od.rename(columns = {'SEQN': 'Sequence number',
+                                'OHDDESTS': 'Dentition Status'})
 
 f = open('OHXDEN.pkl', 'wb')
 
