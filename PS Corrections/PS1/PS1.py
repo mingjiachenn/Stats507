@@ -14,7 +14,26 @@
 #     name: python3
 # ---
 
+# ## GSI comments
+# Q0: -3 for don't provide both raw and formatted versions
+#
+# Q1: -1 for units aren't clear
+#
+# Q3: -1 for format
+
+import pandas as pd
+import numpy as np
+import scipy.stats as st
+from pandas import DataFrame
+from collections import defaultdict
+from IPython.core.display import display, HTML
+import time
+import math
+
+
 # # Question 0 - Markdown warmup
+
+# ### formatted markdown
 
 # This is *question 0* for [problem set 1](https://jbhender.github.io/Stats507/F21/ps/ps1.html) of [Stats 507](https://jbhender.github.io/Stats507/F21/).
 # >Question 0 is about Markdown.
@@ -33,6 +52,31 @@
 # 2. Item 2
 # 3. Item 3
 #
+
+# **Corrections for PS6 Q3**
+#
+# **Q0: -3 for don't provide both raw and formatted versions**
+#
+# ### raw markdown 
+
+# ```
+# This is *question 0* for [problem set 1](https://jbhender.github.io/Stats507/F21/ps/ps1.html) of [Stats 507](https://jbhender.github.io/Stats507/F21/).
+# >Question 0 is about Markdown.
+#
+# The next question is about the **Fibonnaci sequence**, *Fn=Fn−2+Fn−1*. In part **a** we will define a Python function `.fib_rec()`
+# Below is a …
+# ### Level 3 Header
+# Next, we can make a bulleted list:
+# * Item 1
+#     - detail 1
+#     - detail 2
+# * Item 2
+#
+# Finally, we can make an enumerated list:
+# 1. Item 1
+# 2. Item 2
+# 3. Item 3
+# ```
 
 # # Question 1 - Fibonnaci Sequence
 
@@ -76,9 +120,9 @@ def fib_whl(n):
 
 (fib_whl(7) == 13)and(fib_whl(11) == 89)and(fib_whl(13) == 233)
 
+
 # d. Write a function fib_rnd() with the same signature that computes Fn using the rounding method.
 
-import math
 def fib_rnd(n):
     r = (1+math.sqrt(5))/2
     return round(r**n/math.sqrt(5))
@@ -86,9 +130,9 @@ def fib_rnd(n):
 
 (fib_rnd(7)==13)and(fib_rnd(11)==89)and(fib_rnd(13)==233)
 
+
 # e. Write a function fib_flr() with the same signature that computes Fn using the truncation method
 
-import math
 def fib_flr(n):
     r = (1+math.sqrt(5))/2
     return math.floor(r**n/math.sqrt(5)+1/2)
@@ -96,68 +140,70 @@ def fib_flr(n):
 
 (fib_flr(7) == 13)and(fib_flr(11) == 89)and(fib_flr(13) == 233)
 
-# +
-from pandas import DataFrame
-import time
-import numpy as np
+# **Corrections for PS6 Q3**
+#
+# **Q1: -1 for units aren't clear**
+#
+# f.compare the median computation time
 
-lis = [10,20,30]
+# +
+lis = [10, 20, 30]
 
 # get the median computation time of fuction rec_time
 def rec_time(n):
     tm = []
-    for i in range(30):
+    for i in range(1000):
         start = time.time()
         fib_rec(n)
         end = time.time()
         tm.append(end-start)
-        return(np.median(tm))
+        return(round(np.median(tm)*1e6,2))
 
 # get the median computation time of fuction for_time
 def for_time(n):
     tm = []
-    for i in range(30):
+    for i in range(1000):
         start = time.time()
         fib_for(n)
         end = time.time()
         tm.append(end-start)
-        return(np.median(tm))
+        return(round(np.median(tm)*1e6,2))
 
 # get the median computation time of fuction whl_time
 def whl_time(n):
     tm = []
-    for i in range(30):
+    for i in range(1000):
         start = time.time()
         fib_whl(n)
         end = time.time()
         tm.append(end-start)
-        return(np.median(tm))
+        return(round(np.median(tm)*1e6,2))
     
 # get the median computation time of fuction rnd_time
 def rnd_time(n):
     tm = []
-    for i in range(30):
+    for i in range(1000):
         start = time.time()
         fib_rnd(n)
         end = time.time()
         tm.append(end-start)
-        return(np.median(tm))
+        return(round(np.median(tm)*1e6,2))
 
 # get the median computation time of fuction flr_time
 def flr_time(n):
     tm = []
-    for i in range(30):
+    for i in range(1000):
         start = time.time()
         fib_flr(n)
         end = time.time()
         tm.append(end-start)
-        return(np.median(tm))
+        return(round(np.median(tm)*1e6,2))
 
-data = {'fib_rec': [rec_time(lis[0]),rec_time(lis[1]),rec_time(lis[2])],
-        'fib_for': [for_time(lis[0]),for_time(lis[1]),for_time(lis[2])],
-        'fib_whl': [whl_time(lis[0]),whl_time(lis[1]),whl_time(lis[2])],
-        'fib_rnd': [rnd_time(lis[0]),rnd_time(lis[1]),rnd_time(lis[2])],
-        'fib_flr': [flr_time(lis[0]),flr_time(lis[1]),flr_time(lis[2])]}
+data = {'fib_rec': [rec_time(lis[0]), rec_time(lis[1]), rec_time(lis[2])],
+        'fib_for': [for_time(lis[0]), for_time(lis[1]), for_time(lis[2])],
+        'fib_whl': [whl_time(lis[0]), whl_time(lis[1]), whl_time(lis[2])],
+        'fib_rnd': [rnd_time(lis[0]), rnd_time(lis[1]), rnd_time(lis[2])],
+        'fib_flr': [flr_time(lis[0]), flr_time(lis[1]), flr_time(lis[2])]}
 frame = DataFrame(data, index = lis)
 # -
 
@@ -205,12 +251,8 @@ def triangle(n):
 
 triangle(15)
 
+
 # # Question 3 - Statistics 101 
-
-import numpy as np
-import scipy.stats as st
-import math
-
 
 # a.return a point and interval estimate for the mean based on Normal theory
 
@@ -249,7 +291,7 @@ def bino_est(data,method,level,inp):
             return str(p_hat) + "[" + str(level*100) + "%" + "CI:" + "(" + str(lwr) + "," + str(upr) + ")]"
         
     #2
-    elif method =="Beta":
+    elif method =="CP":
         lwr = st.beta.ppf(alpha/2, x, n-x+1)
         upr = st.beta.ppf(1-alpha/2, x+1, n-x)
         if inp=="None" :
@@ -258,7 +300,7 @@ def bino_est(data,method,level,inp):
             return str(p_hat) + "[" + str(level*100) + "%" + "CI:" + "(" + str(lwr) + "," + str(upr) + ")]"
         
     #3
-    elif method =="Jeff":
+    elif method =="Jeffery":
         lwr = max(0, st.beta.ppf(alpha/2, x+0.5, n-x+0.5))
         upr = min(1, st.beta.ppf(1-alpha/2, x+0.5,n-x+0.5))
         if inp=="None" :
@@ -280,49 +322,62 @@ def bino_est(data,method,level,inp):
     
 
 
+# **Corrections for PS6 Q3**
+#
+# **Q3: -1 for format**
+#
 # c.creat array and compare methods
 
 # +
-import pandas as pd
-from pandas import DataFrame
+a = [0 for x in range(42)]
+b = [1 for y in range(48)]
+z = np.array(a+b)
 
-a=[0 for x in range(42)]
-b=[1 for y in range(48)]
-z=np.array(a+b)
+#Define a function to calculate the confidence interval for each method
+def interval(method, level):
+    lst = []
+    if method == 'Mean':
+        lwr = round(norm_est(z,"None",level).get("lwr"),4)
+        upr = round(norm_est(z,"None",level).get("upr"),4)
+        interval = "(" + str(lwr) + "," + str(upr) + ")"
+    else:
+        lwr = round(bino_est(z,method,level,"None").get("lwr"),4)
+        upr = round(bino_est(z,method,level,"None").get("upr"),4)
+        interval = "(" + str(lwr) + "," + str(upr) + ")"
+    lst.append(interval)
+    return lst
 
-for level in [0.90,0.95,0.99]: #
+df = pd.DataFrame({'CI': ['90 %','95 %','99 %']})
+df = df.set_index('CI')
+
+#Build the table
+for method in ['Mean', 'Normal', 'CP', 'Jeffery', 'AC']:
+    int_lst = []
+    for level in [0.9,0.95,0.99]:
+        int_lst.append(interval(method,level))
+    df[method] = int_lst 
+
+display(df)
+# -
+
+for level in [0.90,0.95,0.99]: 
     print("For level of",level) 
-    est = round(norm_est(z,"None",level).get("est"),4)
     lwr = round(norm_est(z,"None",level).get("lwr"),4)
     upr = round(norm_est(z,"None",level).get("upr"),4)
     a_length = upr-lwr
-    a_interval=str(est) + "[" + str(level*100) + "%" + "CI:" + "(" + str(lwr) + "," + str(upr) + ")]"
     
     b_length = np.array([-0.1,-0.1,0,0])
-    name = np.array(["Normal","Clopper-Pearson","Jeffrey","Agresti-Coull"])
     i = 0
-    b_interval=[]
-    for method in ["Normal","Beta","Jeff","AC"]:
-        est = round(bino_est(z,method,level,"None").get("est"),4)
+    name = ["Normal","CP","Jeffery","AC"]
+    for method in name:
         lwr = round(bino_est(z,method,level,"None").get("lwr"),4)
         upr = round(bino_est(z,method,level,"None").get("upr"),4)
         b_length[i] = upr - lwr
-        b_interval.append(str(est) + "[" + str(level*100) + "%" + "CI:" + "(" + str(lwr) + "," + str(upr) + ")]")
-        i = i + 1
-    
-    #show data via a table
-    method_lis=['a. Nomal theory','b. Normal method','b. Beta method','b. Jeff method','b.AC method']
-    data = [a_interval,b_interval[0],b_interval[1],b_interval[2],b_interval[3]]
-    df = pd.DataFrame(data, index = method_lis, columns=['confidence interval'])
-    print(df)
-    
+        i = i + 1  
+        
     #compare the length of interval produced by each method
     min_int = round(min(a_length , b_length.min()),4) 
     if min_int == a_length:
-        print("Normal approximation method produces the interval with the smallest width, which is",min_int)
+        print("Normal approximation method has the smallest width:",min_int)
     else:
-        print(name[np.argmin(b_length)],"method produces the interval with the smallest width, which is",min_int)
-
-# -
-
-
+        print(name[np.argmin(b_length)],"method has the smallest width:",min_int)
