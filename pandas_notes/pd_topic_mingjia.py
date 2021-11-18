@@ -13,19 +13,19 @@
 #     name: python3
 # ---
 
-#  # Topics in Pandas
-#  
-#  **Mingjia Chen** 
-#  **mingjia@umich.edu**
-
-import pandas as pd
-import numpy as np
-
 # ## Pivot Table in pandas
 #
+#
+# *Mingjia Chen* 
+# mingjia@umich.edu
+
 # - A pivot table is a table format that allows data to be dynamically arranged and summarized in categories.
 # - Pivot tables are flexible, allowing you to customize your analytical calculations and making it easy for users to understand the data.
 # - Use the following example to illustrate how a pivot table works.
+
+# +
+import pandas as pd
+import numpy as np
 
 df = pd.DataFrame({"A": [1, 2, 3, 4, 5],
                    "B": [0, 1, 0, 1, 0],
@@ -33,6 +33,7 @@ df = pd.DataFrame({"A": [1, 2, 3, 4, 5],
                    "D": [2, 4, 5, 5, 6],
                    "E": [2, 2, 4, 4, 6]})
 print(df)
+# -
 
 # ## Index
 #
